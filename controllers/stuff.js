@@ -4,11 +4,20 @@
 
 const Thing = require('../models/thing') /* IMPORTE les fonctions de l'application */
 
+/* A l'jout de MULTER, il faut aussi changer les controller pour integrer ce middleware */
+
 exports.createThing = (req, res, next) => {
-    delete req.body._id;
-  const thing = new Thing({ 
-    ...req.body  
-  });
+  const thingObject = JSON.parse(req.body.thing) /* A l'envoie de l'image charge le tout dans une chaine de caractere */
+  /* Fonction pour recuperer l'objet dans cette chaine de caractere */ 
+  delete thingObject._id;
+    const thing = new Thing({ 
+      ...thingObject, 
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      /* {req.protocol} = http ou https */
+      /* {req.get('host')} la racine du server, post du server ex localhost3000*/
+      /* {req.file.filename} nom de l'image enregistrer dans la requete par multer*/
+      /* pour recuperer l'URL faite par multer, donc il faut la recuperer*/
+    });
   thing.save() 
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))
     .catch(error => res.status(400).json({ error }));
