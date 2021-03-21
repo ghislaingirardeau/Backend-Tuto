@@ -16,7 +16,7 @@ const MIME_TYPE = { /* POUR DEFINIR LE TYPE D'IMAGE QUE NOUS RECEVRONS */
       const name = file.originalname.split(' ').join('_'); /* image souvent envoyé avec des espaces dans le nom */
       /* split pour supprimer les espaces et join _ pour recreer le nom ex : mon_image_photo */
       /* fct pour generer le nouveau nom */
-      const extension = MIME_TYPES[file.mimetype]; /* Pour generer l'extension au fichier creer au dessus car pas automatique */
+      const extension = MIME_TYPE[file.mimetype]; /* Pour generer l'extension au fichier creer au dessus car pas automatique */
       callback(null, name + Date.now() + '.' + extension); /* Date.now() ajoute la date et le temps au nom du fichier ce qui le rendra unique*/
     }
   });

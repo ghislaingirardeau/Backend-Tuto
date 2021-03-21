@@ -28,13 +28,13 @@ exports.createThing = (req, res, next) => {
 /* Si il y a un fichier alors req.file existe */
 
 exports.modifyThing = (req, res, next) => {
-  const thingObject =  req.file ? /* est qu'il y a un fichier ? */
+  const thingObject =  req.file ? /* est qu'il y a un fichier ? */ 
     { /* Si existe */
     ...JSON.parse(req.body.thing), /* Recupere l'ojet que parse et on modifie l'url */
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : 
     {...req.body } /* si existe pas  */
-
+   
   Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id}) 
     .then(() => res.status(200).json({message: 'modif ok'}))
     .catch(error => res.status(400).json({error}))
@@ -48,7 +48,7 @@ exports.deleteThing = function (req, res, next)  {
       const filename = thing.imageUrl.split('/images/')[1] /* split retournera 2 tableaux: un des elements avant et un apres / images/, soit [1] qui nous interesse*/
       fs.unlink(`images/${filename}`, () => { /* 2 arguments: chemin du fichier, et le callback */
         Thing.deleteOne({_id: req.params.id}) 
-          .then(() => res.status(200).json({message: 'suppr ok'}))
+          .then(() => res.status(200).json({message: 'Objet a bien été supprimé'}))
           .catch(error => res.status(400).json({error}))
       }) /* Supprimera l'objet et l'image sauvegardé dans le dossier image */
     })
