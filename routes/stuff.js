@@ -2,13 +2,15 @@
 
 const express = require('express');
 
-const router = express.Router();
+const router = express.Router(); /* importe la fonction router */
 
-const stuffCtrl = require("../controllers/stuff")
+const stuffCtrl = require("../controllers/stuff") /* importe les controllers */
 
 const auth = require('../middleware/auth') /* importe le middleware */
 
 /* APPLIQUE UN CONTROLLER SUIVANT CHAQUE ROUTE ET METHODE*/
+
+/* Attention a l'ordre des middleware !!! ex: Authenfication avant toute action possible */
 
 router.post('/', auth, stuffCtrl.createThing) /* applique le middleware sur les routes que nous souhaitons proteger */
 

@@ -3,7 +3,9 @@ const mongoose = require('mongoose'); /* IMPORTE LES PACKAGES */
 
 const Thing = require('./models/thing') /* IMPORTE LES PACKAGES */
 
-const app = express()
+const app = express() /* IMPORTE LE FRAMEWORK EXPRESS */
+
+/* APPEL DE LA BASE DE DONNEE */
 
 mongoose.connect('mongodb+srv://ghislain:qwertyuio@cluster0.d1pzv.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -13,10 +15,14 @@ mongoose.connect('mongodb+srv://ghislain:qwertyuio@cluster0.d1pzv.mongodb.net/my
 
 const bodyParser = require('body-parser');
 
+/* CORS configuration du header du serveur*/
+
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', '*'); /* origin = qui peut acceder au serveur  '*'=tous */
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    /* ajouter les headers mentionnés aux requêtes envoyées vers notre API */
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    /* Methods = accessible que l'on peut restreindre */
     next();
   });
 

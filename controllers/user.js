@@ -48,5 +48,3 @@ exports.login = (req, res, next) => {
 qu'une seule fois à leur compte. Au moment de se connecter, ils recevront leur token et le renverront 
 automatiquement à chaque requête par la suite */
 
-/* npm install --save jsonwebtoken package créer et vérifier les tokens d'authentification
-  */

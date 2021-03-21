@@ -2,7 +2,7 @@
 
 /* Exports = permets directment d'exporter le nom de la fonction */
 
-const Thing = require('../models/thing') /* IMPORTE LES PACKAGES */
+const Thing = require('../models/thing') /* IMPORTE les fonctions de l'application */
 
 exports.createThing = (req, res, next) => {
     delete req.body._id;

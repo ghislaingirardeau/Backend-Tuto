@@ -1,7 +1,7 @@
 const express = require('express') /* IMPORTE LES PACKAGES */
 const mongoose = require('mongoose'); /* IMPORTE LES PACKAGES */
 
-const stuffRoutes = require('./routes/stuff'); /* IMPORTE LE ROUTEUR */
+const stuffRoutes = require('./routes/stuff'); /* IMPORTE LES ROUTEURS */
 const userRoutes = require('./routes/user');
 
 
@@ -24,8 +24,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/api/stuff', stuffRoutes); /* LE DEBUT DE ROUTE, LE FICHIER IMPORTER */
+app.use('/api/stuff', stuffRoutes); /* APPLIQUE LES TOUTES IMPORTER */
 app.use('/api/auth', userRoutes)
 
 
-module.exports = app
+module.exports = app /* EXPORTE APP DANS server.js */
