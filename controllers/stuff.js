@@ -3,6 +3,7 @@
 /* Exports = permets directment d'exporter le nom de la fonction */
 
 const Thing = require('../models/thing') /* IMPORTE les fonctions de l'application */
+const fs = require('fs') /* package file system de node qui gere les fichiers */
 
 /* A l'jout de MULTER, il faut aussi changer les controller pour integrer ce middleware */
 
@@ -23,16 +24,36 @@ exports.createThing = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 }
 
-exports.changeThing = (req, res, next) => { 
-    Thing.updateOne({_id: req.params.id}, {...req.body, _id: req.params.id}) 
-      .then(() => res.status(200).json({message: 'modif ok'}))
-      .catch(error => res.status(400).json({error}))
+/* Put, 2 situations possible: Si l'image est modifié ou si seul le texte est modifié */
+/* Si il y a un fichier alors req.file existe */
+
+exports.modifyThing = (req, res, next) => {
+  const thingObject =  req.file ? /* est qu'il y a un fichier ? */
+    { /* Si existe */
+    ...JSON.parse(req.body.thing), /* Recupere l'ojet que parse et on modifie l'url */
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : 
+    {...req.body } /* si existe pas  */
+
+  Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id}) 
+    .then(() => res.status(200).json({message: 'modif ok'}))
+    .catch(error => res.status(400).json({error}))
 }
 
+/* Pour la suppression de fichier on ajoute */
+
 exports.deleteThing = function (req, res, next)  { 
-    Thing.deleteOne({_id: req.params.id}) 
-      .then(() => res.status(200).json({message: 'suppr ok'}))
-      .catch(error => res.status(400).json({error}))
+  Thing.findOne ({ _id: req.params.id}) /* trouver l'id correspondant a l'objet */
+    .then(thing => {
+      const filename = thing.imageUrl.split('/images/')[1] /* split retournera 2 tableaux: un des elements avant et un apres / images/, soit [1] qui nous interesse*/
+      fs.unlink(`images/${filename}`, () => { /* 2 arguments: chemin du fichier, et le callback */
+        Thing.deleteOne({_id: req.params.id}) 
+          .then(() => res.status(200).json({message: 'suppr ok'}))
+          .catch(error => res.status(400).json({error}))
+      }) /* Supprimera l'objet et l'image sauvegardé dans le dossier image */
+    })
+    .catch(error => res.status(500).json({error})) 
+  
 }
 
 exports.getThing = (req, res, next) => {

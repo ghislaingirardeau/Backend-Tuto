@@ -15,13 +15,9 @@ const multer = require('../middleware/multer-config')
 /* Attention a l'ordre des middleware ex MULTER !!! ex: Authenfication avant toute action possible */
 
 router.post('/', auth, multer, stuffCtrl.createThing) /* applique le middleware sur les routes que nous souhaitons proteger */
-
 router.delete('/:id', auth, stuffCtrl.deleteThing) /* pour acceder a la routes, il faudra donc etre connecter */
-
-router.put('/:id', auth, stuffCtrl.changeThing)
-
+router.put('/:id', auth, multer, stuffCtrl.modifyThing)
 router.get('/:id', auth, stuffCtrl.getOneThing)
-
 router.get('/', auth, stuffCtrl.getThing);
 
 module.exports = router;

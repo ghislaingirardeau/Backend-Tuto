@@ -1,9 +1,10 @@
 const express = require('express') /* IMPORTE LES PACKAGES */
 const mongoose = require('mongoose'); /* IMPORTE LES PACKAGES */
+const path = require('path'); /* Specifier un chemin pour trouver une image */
+
 
 const stuffRoutes = require('./routes/stuff'); /* IMPORTE LES ROUTEURS */
 const userRoutes = require('./routes/user');
-
 
 const app = express()
 
@@ -24,7 +25,14 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/api/stuff', stuffRoutes); /* APPLIQUE LES TOUTES IMPORTER */
+/* INDIQUE LE CHEMIN LORS DU TELECHARGEMENT IMAGE */
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
+/* Pour dire au serveur le chemin afin de trouver l'image */
+
+/* APPLIQUE TOUTES ROUTES IMPORTEES */
+
+app.use('/api/stuff', stuffRoutes); 
 app.use('/api/auth', userRoutes)
 
 
