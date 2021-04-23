@@ -26,7 +26,7 @@ exports.login = (req, res, next) => {
         return res.status(401).json({ error: 'Utilisateur non trouvé !' });
       }
       
-    bcrypt.compare(req.body.password, user.password) /* Si email ok, alors compare le hash saisie et le hash enregistrer */
+      bcrypt.compare(req.body.password, user.password) /* Si email ok, alors compare le hash saisie et le hash enregistrer */
       .then(valid => {
         if (!valid) { /* Si le hash et donc le password ne correspond pas alors renvoie erreur */
           return res.status(401).json({ error: 'Mot de passe incorrect !' }); /* 401 Unauthorized */
@@ -40,7 +40,7 @@ exports.login = (req, res, next) => {
           ) 
         });
       })
-        .catch(error => res.status(500).json({ error }));
+      .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error })); /* 500  la requête envoyée par le navigateur n'a pas pu être traitée */
 }

@@ -5,7 +5,7 @@
 const Thing = require('../models/thing') /* IMPORTE les fonctions de l'application */
 const fs = require('fs') /* package file system de node qui gere les fichiers */
 
-/* A l'jout de MULTER, il faut aussi changer les controller pour integrer ce middleware */
+/* A l'ajout de MULTER, il faut aussi changer les controller pour integrer ce middleware */
 
 exports.createThing = (req, res, next) => {
   const thingObject = JSON.parse(req.body.thing) /* A l'envoie de l'image charge le tout dans une chaine de caractere */
@@ -29,11 +29,11 @@ exports.createThing = (req, res, next) => {
 
 exports.modifyThing = (req, res, next) => {
   const thingObject =  req.file ? /* est qu'il y a un fichier ? */ 
-    { /* Si existe */
+    { /* Si existe, j'envoie ceci dans thingObject */
     ...JSON.parse(req.body.thing), /* Recupere l'ojet que parse et on modifie l'url */
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : 
-    {...req.body } /* si existe pas  */
+    {...req.body } /* et j'envoie aussi la requete dans le thingObject */
    
   Thing.updateOne({_id: req.params.id}, {...thingObject, _id: req.params.id}) 
     .then(() => res.status(200).json({message: 'modif ok'}))
