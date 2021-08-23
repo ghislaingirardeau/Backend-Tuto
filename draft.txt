@@ -8,3 +8,4 @@ je modifie la branche a distance
 je veux soumettre ma branche au master
 
 changement dans le local
+actualisation de distance
