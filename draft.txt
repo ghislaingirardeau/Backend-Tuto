@@ -6,3 +6,5 @@ modif ok
 
 2eme modifications
 
+test de fetch
+
